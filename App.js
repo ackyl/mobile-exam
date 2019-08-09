@@ -1,55 +1,49 @@
 import React, { Component } from 'react'
+import {View, Text} from 'react-native'
+import {Icon} from 'native-base'
 import {
-  View,
-  Text,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native'
+  createStackNavigator,
+  createBottomTabNavigator,
+  createAppContainer
+} from 'react-navigation'
+
+import AuthScreen from './src/auth/AuthScreen'
+import DiaryScreen from './src/app/DiaryScreen'
+import ProfileScreen from './src/app/ProfileScreen'
+
+
+const MainStack = createBottomTabNavigator(
+  {
+    Diary: {
+      screen: DiaryScreen,
+      navigationOptions: {
+        tabBarIcon: <Icon name='bookmarks'/>
+      }
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        tabBarIcon: <Icon name='contact'/>
+      }
+    }
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: 'purple',
+      inactiveTintColor: 'grey'
+    }
+  }
+)
+
+const AppContainer = createAppContainer(MainStack)
 
 class App extends Component {
   render (){
     return (
-      <View style={styles.container}>
-        <TouchableNativeFeedback>
-          <View style={styles.button}>
-            <Text style={styles.text}>A</Text>
-          </View>
-        </TouchableNativeFeedback>
-
-        <TouchableOpacity>
-        <View style={styles.button}>
-            <Text style={styles.text}>B</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-        <View style={styles.button}>
-            <Text style={styles.text}>C</Text>
-          </View>
-        </TouchableOpacity>
-
-      </View>
+      <AppContainer/>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    // Untuk menentukan arah ususan component (defaul: column)
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-around',
-    backgroundColor: 'rgb(245, 192, 188)',
-    flex: 1
-  },
-  button:{
-    marginTop: 50,
-    width: 100,
-    height: 50,
-    backgroundColor: 'powderblue'
-  },
-  text: {margin: 2, color:'white', textAlign: 'center'}
-})
 
 export default App
