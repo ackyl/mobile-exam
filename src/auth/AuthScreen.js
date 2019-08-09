@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
-import {View, Text} from 'react-native'
+import {View} from 'react-native'
+import {Container, Button, Text} from 'native-base'
 
 class AuthScreen extends Component {
+
+    pindahScreen = () => {
+        this.props.navigation.navigate('Kesini')
+    }
+
     render() {
         return (
-            <View>
+            <Container>
                 <Text>AuthScreen</Text>
-            </View>
+                <Button onPress={this.pindahScreen}>
+                    <Text>
+                        PINDAH
+                    </Text>
+                </Button>
+            </Container>
         )
     }
 }

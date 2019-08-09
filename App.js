@@ -12,7 +12,7 @@ import DiaryScreen from './src/app/DiaryScreen'
 import ProfileScreen from './src/app/ProfileScreen'
 
 
-const MainStack = createBottomTabNavigator(
+const MainTab = createBottomTabNavigator(
   {
     Diary: {
       screen: DiaryScreen,
@@ -35,7 +35,17 @@ const MainStack = createBottomTabNavigator(
   }
 )
 
-const AppContainer = createAppContainer(MainStack)
+const RootStack = createStackNavigator(
+  {
+    Auth: AuthScreen,
+    Kesini: DiaryScreen
+  },
+  {
+    headerMode: 'none'
+  }
+)
+
+const AppContainer = createAppContainer(RootStack)
 
 class App extends Component {
   render (){
