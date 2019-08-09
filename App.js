@@ -38,7 +38,7 @@ const MainTab = createBottomTabNavigator(
 const RootStack = createStackNavigator(
   {
     Auth: AuthScreen,
-    Kesini: DiaryScreen
+    Main: MainTab
   },
   {
     headerMode: 'none'
