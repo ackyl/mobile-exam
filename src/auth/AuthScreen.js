@@ -8,8 +8,16 @@ class AuthScreen extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        confirm: '',
+        login: true
     }
+
+    onSwitch = () => {
+        this.setState({login: !this.state.login})
+    }
+
+
 
     componentDidMount(){
         // Cek apakah ada user yang sedang login
@@ -20,7 +28,7 @@ class AuthScreen extends Component {
                 this.props.onLoginUser(
                     user.uid, user.email
                 )
-                
+
                 // Pindah ke halaman utama
                 this.props.navigation.navigate('Main')
             }
@@ -50,33 +58,82 @@ class AuthScreen extends Component {
     
 
     render() {
-        return (
-            <Container>
-                <Form>
-                    {/* style: stackedLabel */}
-                    <Item stackedLabel>
-                        <Label>Email</Label>
-                        <Input 
-                            // Update state dg text yang di ketik
-                            onChangeText={(text) => this.setState({email: text})}
-                        />
-                    </Item>
-                    <Item stackedLabel>
-                        <Label>Password</Label>
-                        <Input 
-                            // Agar yang kita ketik akan di hide
-                            secureTextEntry
-                            // Update state dg text yang di ketik
-                            onChangeText={(input) => this.setState({password: input})}
-                        />
-                    </Item>
-                </Form>
-                {/* Memanggil function ketika di click */}
-                <Button onPress={this.authRegister}>
-                    <Text>REGISTER</Text>
-                </Button>
-            </Container>
-        )
+        if(!this.state.login){
+            // RENDER REGISTER
+            return (
+                <Container>
+                    <Text>Authentication Screen</Text>
+                    <Button onPress={this.onSwitch}>
+                        <Text>Switch to Login</Text>
+                    </Button>
+                    <Form>
+                        {/* style: stackedLabel */}
+                        <Item stackedLabel>
+                            <Label>Email</Label>
+                            <Input 
+                                // Update state dg text yang di ketik
+                                onChangeText={(text) => this.setState({email: text})}
+                            />
+                        </Item>
+                        <Item stackedLabel>
+                            <Label>Password</Label>
+                            <Input 
+                                // Agar yang kita ketik akan di hide
+                                secureTextEntry
+                                // Update state dg text yang di ketik
+                                onChangeText={(text) => this.setState({password: text})}
+                            />
+                        </Item>
+                        <Item stackedLabel>
+                            <Label>Confirm Password</Label>
+                            <Input 
+                                // Agar yang kita ketik akan di hide
+                                secureTextEntry
+                                // Update state dg text yang di ketik
+                                onChangeText={(text) => this.setState({confirm: text})}
+                            />
+                        </Item>
+                    </Form>
+                    {/* Memanggil function ketika di click */}
+                    <Button onPress={this.authRegister}>
+                        <Text>REGISTER</Text>
+                    </Button>
+                </Container>
+            )
+        } else {
+            // RENDER LOGIN
+            return (
+                <Container>
+                    <Text>Authentication Screen</Text>
+                    <Button onPress={this.onSwitch}>
+                        <Text>Switch to Register</Text>
+                    </Button>
+                    <Form>
+                        {/* style: stackedLabel */}
+                        <Item stackedLabel>
+                            <Label>Email</Label>
+                            <Input 
+                                // Update state dg text yang di ketik
+                                onChangeText={(text) => this.setState({email: text})}
+                            />
+                        </Item>
+                        <Item stackedLabel>
+                            <Label>Password</Label>
+                            <Input 
+                                // Agar yang kita ketik akan di hide
+                                secureTextEntry
+                                // Update state dg text yang di ketik
+                                onChangeText={(text) => this.setState({password: text})}
+                            />
+                        </Item>
+                    </Form>
+                    {/* Memanggil function ketika di click */}
+                    <Button onPress={this.authRegister}>
+                        <Text>LOGIN</Text>
+                    </Button>
+                </Container>
+            )
+        }
     }
 }
 

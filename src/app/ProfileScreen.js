@@ -14,6 +14,9 @@ class ProfileScreen extends Component {
         await Fire.auth().signOut()
         // Logout dari redux
         this.props.onLogout()
+
+        // kembali ke halaman auth
+        this.props.navigation.navigate('Auth')
     }
 
     render() {
