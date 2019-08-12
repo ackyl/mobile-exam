@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {Container, Button, Text, Form, Item, Input, Label} from 'native-base'
+import {connect} from 'react-redux'
 import Fire from '../firebase/index'
+import {onLogin} from '../store/actions/index'
 
 class AuthScreen extends Component {
 
@@ -19,9 +21,10 @@ class AuthScreen extends Component {
         } else {
             let res = await Fire.auth()
                             .createUserWithEmailAndPassword(email, password)
-            
-            console.log(res.user.email)
-            console.log(res.user.uid)
+            this.props.onLoginUser(
+                res.user.uid,
+                res.user.email
+            )
         }
         
         
@@ -59,4 +62,10 @@ class AuthScreen extends Component {
     }
 }
 
-export default AuthScreen
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoginUser: (uid, email) => {dispatch(onLogin(uid, email))}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(AuthScreen)

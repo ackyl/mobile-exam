@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {View, Text} from 'react-native'
 import {Icon} from 'native-base'
+import {Provider} from 'react-redux'
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -10,6 +10,8 @@ import {
 import AuthScreen from './src/auth/AuthScreen'
 import DiaryScreen from './src/app/DiaryScreen'
 import ProfileScreen from './src/app/ProfileScreen'
+
+import STORE from './src/store/reducers/index'
 
 
 const MainTab = createBottomTabNavigator(
@@ -50,7 +52,9 @@ const AppContainer = createAppContainer(RootStack)
 class App extends Component {
   render (){
     return (
-      <AppContainer/>
+      <Provider store={STORE}>
+        <AppContainer/>
+      </Provider>
     )
   }
 }
