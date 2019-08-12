@@ -10,12 +10,21 @@ class AuthScreen extends Component {
     }
 
     // Function yang akan di jalanakna ketika klik button register
-    authRegister = () => {
+    authRegister = async () => {
         let email = this.state.email
         let password = this.state.password
 
-        // REGISTER
-        Fire.auth().createUserWithEmailAndPassword(email, password)
+        if(password.length < 6){
+            alert('Password harus minimal 6 karakter')
+        } else {
+            let res = await Fire.auth()
+                            .createUserWithEmailAndPassword(email, password)
+            
+            console.log(res.user.email)
+            console.log(res.user.uid)
+        }
+        
+        
     }
     
 
@@ -28,7 +37,7 @@ class AuthScreen extends Component {
                         <Label>Email</Label>
                         <Input 
                             // Update state dg text yang di ketik
-                            onChangeText={(input) => this.setState({email: input})}
+                            onChangeText={(text) => this.setState({email: text})}
                         />
                     </Item>
                     <Item stackedLabel>
