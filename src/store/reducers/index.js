@@ -9,6 +9,8 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
             return {...state, uid: action.payload.uid, email: action.payload.email}
+        case 'LOGOUT_SUCCESS':
+            return {...state, uid: '', email: ''}
         default:
             return state
     }

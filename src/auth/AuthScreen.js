@@ -11,6 +11,22 @@ class AuthScreen extends Component {
         password: ''
     }
 
+    componentDidMount(){
+        // Cek apakah ada user yang sedang login
+        Fire.auth().onAuthStateChanged((user) => {
+            // jika user ditemukan
+            if(user){
+                // login ke redux
+                this.props.onLoginUser(
+                    user.uid, user.email
+                )
+                
+                // Pindah ke halaman utama
+                this.props.navigation.navigate('Main')
+            }
+        })
+    }
+
     // Function yang akan di jalanakna ketika klik button register
     authRegister = async () => {
         let email = this.state.email
@@ -25,6 +41,8 @@ class AuthScreen extends Component {
                 res.user.uid,
                 res.user.email
             )
+
+            this.props.navigation.navigate('Main')
         }
         
         

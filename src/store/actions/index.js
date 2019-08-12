@@ -9,3 +9,9 @@ export const onLogin = (data_uid, data_email) => {
         }
     }
 }
+
+export const onLogout = () => {
+    return {
+        type: 'LOGOUT_SUCCESS'
+    }
+}
