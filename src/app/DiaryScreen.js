@@ -27,7 +27,7 @@ class DiaryScreen extends Component {
                 <Text>DiaryScreen</Text>
             </View>
         )
-    
+    }
 }
 
 export default DiaryScreen
