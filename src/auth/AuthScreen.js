@@ -36,21 +36,48 @@ class AuthScreen extends Component {
     }
 
     // Function yang akan di jalanakna ketika klik button register
-    authRegister = async () => {
+    authButton = async () => {
         let email = this.state.email
         let password = this.state.password
+        let confirm = this.state.confirm
 
-        if(password.length < 6){
-            alert('Password harus minimal 6 karakter')
+        if(this.state.login){
+            // LOGIN
+
+            try {
+                // Login di firebase
+                let user = await Fire.auth().signInWithEmailAndPassword(email, password)
+                
+                // Login di app
+                this.props.onLoginUser(
+                    user.uid, user.email
+                )
+
+                // Pindah ke halaman utama
+                this.props.navigation.navigate('Main')
+            } catch (error) {
+                // jika terjadi error pada block kode 'try', akan kita munculkan pesan errornya
+                alert(error.message)
+            }
         } else {
-            let res = await Fire.auth()
-                            .createUserWithEmailAndPassword(email, password)
-            this.props.onLoginUser(
-                res.user.uid,
-                res.user.email
-            )
+            // REGISTER
 
-            this.props.navigation.navigate('Main')
+            if(password.length < 6){
+                alert('Password harus minimal 6 karakter')
+            } else {
+                if (password == confirm) {
+                    let res = await Fire.auth()
+                                .createUserWithEmailAndPassword(email, password)
+                    this.props.onLoginUser(
+                        res.user.uid,
+                        res.user.email
+                    )
+
+                    this.props.navigation.navigate('Main')
+                } else {
+                    alert('Password dan Confirm harus sama')
+                }
+            }
         }
         
         
@@ -125,14 +152,14 @@ class AuthScreen extends Component {
         return (
             <Container>
                 <Text>Authentication Screen</Text>
-                
+
                 <Button onPress={this.onSwitch}>
                     <Text>{titleTopButton}</Text>
                 </Button>
 
                 {form}
             
-                <Button onPress={this.authRegister}>
+                <Button onPress={this.authButton}>
                     <Text>{titleBotBottom}</Text>
                 </Button>
             </Container>
