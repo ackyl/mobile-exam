@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {View, StyleSheet, ImageBackground} from 'react-native'
 import {Container, Button, Text, Form, Item, Input, Label} from 'native-base'
 import {connect} from 'react-redux'
 import Fire from '../firebase/index'
@@ -16,8 +17,6 @@ class AuthScreen extends Component {
     onSwitch = () => {
         this.setState({login: !this.state.login})
     }
-
-
 
     componentDidMount(){
         // Cek apakah ada user yang sedang login
@@ -151,21 +150,43 @@ class AuthScreen extends Component {
 
         return (
             <Container>
-                <Text>Authentication Screen</Text>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Authentication Screen</Text>
+                </View>
 
-                <Button onPress={this.onSwitch}>
-                    <Text>{titleTopButton}</Text>
-                </Button>
+                <View style={styles.button}>
+                    <Button bordered primary onPress={this.onSwitch}>
+                        <Text>{titleTopButton}</Text>
+                    </Button>
+                </View>
 
                 {form}
             
-                <Button onPress={this.authButton}>
-                    <Text>{titleBotBottom}</Text>
-                </Button>
+                    <Button block primary onPress={this.authButton}>
+                        <Text>{titleBotBottom}</Text>
+                    </Button>
+                
             </Container>
     )
     }
 }
+
+const styles = StyleSheet.create({
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 15
+    },
+    title : {
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    button: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 10
+    }
+})
 
 const mapDispatchToProps = dispatch => {
     return {
