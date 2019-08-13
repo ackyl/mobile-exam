@@ -58,82 +58,85 @@ class AuthScreen extends Component {
     
 
     render() {
+        let titleTopButton, form
+
         if(!this.state.login){
             // RENDER REGISTER
-            return (
-                <Container>
-                    <Text>Authentication Screen</Text>
-                    <Button onPress={this.onSwitch}>
-                        <Text>Switch to Login</Text>
-                    </Button>
-                    <Form>
-                        {/* style: stackedLabel */}
-                        <Item stackedLabel>
-                            <Label>Email</Label>
-                            <Input 
-                                // Update state dg text yang di ketik
-                                onChangeText={(text) => this.setState({email: text})}
-                            />
-                        </Item>
-                        <Item stackedLabel>
-                            <Label>Password</Label>
-                            <Input 
-                                // Agar yang kita ketik akan di hide
-                                secureTextEntry
-                                // Update state dg text yang di ketik
-                                onChangeText={(text) => this.setState({password: text})}
-                            />
-                        </Item>
-                        <Item stackedLabel>
-                            <Label>Confirm Password</Label>
-                            <Input 
-                                // Agar yang kita ketik akan di hide
-                                secureTextEntry
-                                // Update state dg text yang di ketik
-                                onChangeText={(text) => this.setState({confirm: text})}
-                            />
-                        </Item>
-                    </Form>
-                    {/* Memanggil function ketika di click */}
-                    <Button onPress={this.authRegister}>
-                        <Text>REGISTER</Text>
-                    </Button>
-                </Container>
+            titleTopButton = 'Switch to Login'
+            titleBotBottom = 'Register'
+            form = (
+                <Form>
+                    {/* style: stackedLabel */}
+                    <Item stackedLabel>
+                        <Label>Email</Label>
+                        <Input 
+                            // Update state dg text yang di ketik
+                            onChangeText={(text) => this.setState({email: text})}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Label>Password</Label>
+                        <Input 
+                            // Agar yang kita ketik akan di hide
+                            secureTextEntry
+                            // Update state dg text yang di ketik
+                            onChangeText={(text) => this.setState({password: text})}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Label>Confirm Password</Label>
+                        <Input 
+                            // Agar yang kita ketik akan di hide
+                            secureTextEntry
+                            // Update state dg text yang di ketik
+                            onChangeText={(text) => this.setState({confirm: text})}
+                        />
+                    </Item>
+                </Form>
             )
         } else {
             // RENDER LOGIN
-            return (
-                <Container>
-                    <Text>Authentication Screen</Text>
-                    <Button onPress={this.onSwitch}>
-                        <Text>Switch to Register</Text>
-                    </Button>
-                    <Form>
-                        {/* style: stackedLabel */}
-                        <Item stackedLabel>
-                            <Label>Email</Label>
-                            <Input 
-                                // Update state dg text yang di ketik
-                                onChangeText={(text) => this.setState({email: text})}
-                            />
-                        </Item>
-                        <Item stackedLabel>
-                            <Label>Password</Label>
-                            <Input 
-                                // Agar yang kita ketik akan di hide
-                                secureTextEntry
-                                // Update state dg text yang di ketik
-                                onChangeText={(text) => this.setState({password: text})}
-                            />
-                        </Item>
-                    </Form>
-                    {/* Memanggil function ketika di click */}
-                    <Button onPress={this.authRegister}>
-                        <Text>LOGIN</Text>
-                    </Button>
-                </Container>
+            titleTopButton = 'Switch to Register'
+            titleBotBottom = 'Login'
+            form = (
+                <Form>
+                    {/* style: stackedLabel */}
+                    <Item stackedLabel>
+                        <Label>Email</Label>
+                        <Input 
+                            // Update state dg text yang di ketik
+                            onChangeText={(text) => this.setState({email: text})}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Label>Password</Label>
+                        <Input 
+                            // Agar yang kita ketik akan di hide
+                            secureTextEntry
+                            // Update state dg text yang di ketik
+                            onChangeText={(text) => this.setState({password: text})}
+                        />
+                    </Item>
+                </Form>
             )
+            
         }
+
+        return (
+            <Container>
+                <Text>Authentication Screen</Text>
+                
+                <Button onPress={this.onSwitch}>
+                    <Text>{titleTopButton}</Text>
+                </Button>
+
+                {form}
+            
+                <Button onPress={this.authRegister}>
+                    <Text>{titleBotBottom}</Text>
+                </Button>
+            </Container>
+    )
     }
 }
 
