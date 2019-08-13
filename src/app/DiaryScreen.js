@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {View, Text, BackHandler} from 'react-native'
+import {View, BackHandler} from 'react-native'
 import {NavigationEvents} from 'react-navigation'
+import {Button, Text} from 'native-base'
 
 class DiaryScreen extends Component {
 
@@ -24,7 +25,12 @@ class DiaryScreen extends Component {
                         BackHandler.removeEventListener('hardwareBackPress', this.onBackButton)
                     }}
                 />
+
                 <Text>DiaryScreen</Text>
+                
+                <Button>
+                    <Text>Add Diary</Text>
+                </Button>
             </View>
         )
     }

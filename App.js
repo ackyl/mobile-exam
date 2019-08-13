@@ -8,16 +8,31 @@ import {
 } from 'react-navigation'
 
 import AuthScreen from './src/auth/AuthScreen'
+
 import DiaryScreen from './src/app/DiaryScreen'
+import AddDiaryScreen from './src/app/AddDiaryScreen'
+import DetailDiaryScreen from './src/app/DetailDiaryScreen'
+
 import ProfileScreen from './src/app/ProfileScreen'
+
 
 import STORE from './src/store/reducers/index'
 
+const DiaryStack = createStackNavigator(
+  {
+    ListDiary: DiaryScreen,
+    AddDiary: AddDiaryScreen,
+    DetailDiary: DetailDiaryScreen
+  },
+  {
+    headerMode: 'none'
+  }
+)
 
 const MainTab = createBottomTabNavigator(
   {
     Diary: {
-      screen: DiaryScreen,
+      screen: DiaryStack,
       navigationOptions: {
         tabBarIcon: <Icon name='bookmarks'/>
       }
