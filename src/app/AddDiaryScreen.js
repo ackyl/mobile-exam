@@ -1,12 +1,33 @@
 import React, { Component } from 'react'
 import {View, StyleSheet} from 'react-native'
+import {connect} from 'react-redux'
 import {Container, Text, Textarea, Button, Item, Input} from 'native-base'
 
 import DatePick from './components/DatePick'
 
+import Fire from '../firebase'
+
 class AddDiaryScreen extends Component {
-    getDate = () => {
-        alert('Function dari AddDiaryScreen')
+
+    state = {
+        title: '',
+        diary: '',
+        date: new Date()
+    }
+
+    // variable tanggal akan di isi tanggal yang dipilih oleh user
+    getDate = (tanggal) => {
+        this.setState({date: tanggal})
+    }
+
+    addDiary = async () => {
+        Fire.database().ref(`diary/${this.props.uid}`)
+        .push({
+            title: this.state.title,
+            diary: this.state.diary,
+            date: this.state.date.toString().substr(4,12)
+        })
+
     }
 
     render() {
@@ -19,15 +40,17 @@ class AddDiaryScreen extends Component {
                         <Item rounded>
                             <Input
                                 placeholder='Title'
+                                onChangeText={(text) => this.setState({title: text})}
                             />
                         </Item>
                         <Textarea
                             placeholder = 'Your Story'
                             bordered
                             rowSpan = {15}
+                            onChangeText={(text) => this.setState({diary: text})}
                         />
                         <View style={styles.button}>
-                            <Button block>
+                            <Button block onPress={this.addDiary}>
                                 <Text>Create Diary</Text>
                             </Button>
                         </View>
@@ -52,4 +75,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddDiaryScreen
+const mapStateToProps = state => {
+    return {
+        uid: state.auth.uid
+    }
+}
+
+export default connect(mapStateToProps)(AddDiaryScreen)
