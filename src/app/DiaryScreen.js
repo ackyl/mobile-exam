@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import {View, BackHandler, StyleSheet} from 'react-native'
 import {NavigationEvents} from 'react-navigation'
+import {connect} from 'react-redux'
 import {Button, Text, Container} from 'native-base'
 
+import Fire from '../firebase'
+
 class DiaryScreen extends Component {
+
+    state = {
+        snapShot: {}
+    }
 
     onBackButton = () => {
         alert('Tombol back di tekan')
@@ -15,6 +22,34 @@ class DiaryScreen extends Component {
         this.props.navigation.navigate('AddDiary')
     }
 
+    getData = () => {
+        // Get data
+        Fire.database().ref(`diary/${this.props.uid}`)
+        .once('value', (snapShot) => {
+            // Cek apakah data di temukan
+            if(snapShot.exists()){
+                this.setState({snapShot: snapShot.val()})
+            }
+        })
+    }
+
+    renderList = () => {
+        // array of id dari setiap diary
+        let keysDiary = Object.keys(this.state.snapShot)
+        let listDiary = []
+
+        keysDiary.forEach((key) => {
+            listDiary.push({
+                title : this.state.snapShot[key].title,
+                diary : this.state.snapShot[key].diary,
+                date : this.state.snapShot[key].date
+            })
+        })
+
+        console.log(this.state.snapShot)
+        console.log(listDiary)
+    }
+
     render() {
         return (
             <Container>
@@ -22,6 +57,7 @@ class DiaryScreen extends Component {
                     // ComponentDidMount
                     onDidFocus = {() => {
                         BackHandler.addEventListener('hardwareBackPress', this.onBackButton)
+                        this.getData()
                     }}
 
                     // ComponentWillUnmount
@@ -32,7 +68,12 @@ class DiaryScreen extends Component {
 
                 <View style={styles.container}>
                     <Text>DiaryScreen</Text>
-                    {/* render list */}
+                    
+                    <View style={styles.button}>
+                        <Button onPress={this.renderList}>
+                            <Text>Nyoba bikin arrey</Text>
+                        </Button>
+                    </View>
                     <View style={styles.button}>
                         <Button onPress={this.onAddDiary}>
                             <Text>Add Diary</Text>
@@ -55,4 +96,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DiaryScreen
+const mapStateToProps = state => {
+    return {
+        uid: state.auth.uid
+    }
+}
+
+export default connect(mapStateToProps)(DiaryScreen)

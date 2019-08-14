@@ -21,12 +21,15 @@ class AddDiaryScreen extends Component {
     }
 
     addDiary = async () => {
-        Fire.database().ref(`diary/${this.props.uid}`)
+        await Fire.database().ref(`diary/${this.props.uid}`)
         .push({
             title: this.state.title,
             diary: this.state.diary,
             date: this.state.date.toString().substr(4,12)
         })
+
+        // kembali ke halaman sebelumnya
+        this.props.navigation.goBack()
 
     }
 
