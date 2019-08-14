@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import {View, BackHandler} from 'react-native'
+import {View, BackHandler, StyleSheet} from 'react-native'
 import {NavigationEvents} from 'react-navigation'
-import {Button, Text} from 'native-base'
+import {Button, Text, Container} from 'native-base'
 
 class DiaryScreen extends Component {
 
@@ -11,9 +11,13 @@ class DiaryScreen extends Component {
         return true
     }
 
+    onAddDiary = () => {
+        this.props.navigation.navigate('AddDiary')
+    }
+
     render() {
         return (
-            <View>
+            <Container>
                 <NavigationEvents
                     // ComponentDidMount
                     onDidFocus = {() => {
@@ -26,14 +30,29 @@ class DiaryScreen extends Component {
                     }}
                 />
 
-                <Text>DiaryScreen</Text>
-                
-                <Button>
-                    <Text>Add Diary</Text>
-                </Button>
-            </View>
+                <View style={styles.container}>
+                    <Text>DiaryScreen</Text>
+                    {/* render list */}
+                    <View style={styles.button}>
+                        <Button onPress={this.onAddDiary}>
+                            <Text>Add Diary</Text>
+                        </Button>
+                    </View>
+                </View>
+            </Container>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    button: {
+        marginVertical: 20
+    }
+})
 
 export default DiaryScreen
