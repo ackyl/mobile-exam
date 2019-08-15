@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, BackHandler, StyleSheet, FlatList} from 'react-native'
+import {View, BackHandler, StyleSheet, FlatList, ScrollView} from 'react-native'
 import {NavigationEvents} from 'react-navigation'
 import {connect} from 'react-redux'
 import {Button, Text, Container} from 'native-base'
@@ -51,19 +51,18 @@ class DiaryScreen extends Component {
             })
         })
 
-        listDiary.map()
-        
+
         // [{title, diary, date}{}{}]
         return <FlatList
                     keyExtractor = {(item) => item.id}
                     style = {styles.flaslist}
                     data={listDiary}
-                    renderItem ={(item)=>{
-                        return <ListDiary data={item} key={item.id}/>
+                    renderItem ={(asd)=>{
+                        return <ListDiary data={asd} key={asd.id}/>
                     }}
                 />
     }
-s
+
     render() {
         return (
             <Container>
@@ -85,7 +84,9 @@ s
                 <View style={styles.container}>
                     <Text>DiaryScreen</Text>
                     
+                    
                     {this.renderList()}
+                    
                     <View style={styles.button}>
                         <Button onPress={this.onAddDiary}>
                             <Text>Add Diary</Text>
