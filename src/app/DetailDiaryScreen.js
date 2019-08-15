@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {StyleSheet, View} from 'react-native'
+import {connect} from 'react-redux'
 import {
     Container,
     Content,
@@ -9,11 +10,25 @@ import {
     Button
 } from 'native-base'
 
+import Fire from '../firebase'
+
 // Untuk mengambil data dari navigate menggunakan
 // navigation.getParam('nama parameternya') / 'data_diary'
 class DetailDiaryScreen extends Component {
+
+    state = {
+        diary: this.props.navigation.getParam('data_diary')
+    }
+
+    onDeleteButton = async () => {
+        // Menghapus data
+       await Fire.database().ref(`diary/${this.props.uid}/${this.state.diary.id}`).remove()
+        // kembali ke halaman sebelumnya. 
+       this.props.navigation.goBack()
+    }
     render() {
-        var diary = this.props.navigation.getParam('data_diary')
+        // Mengambil data yang di kirim dari navigate
+        var diary = this.state.diary
         return (
             <Container>
                 <Content>
@@ -51,4 +66,10 @@ const styles = StyleSheet.create({
         marginTop: 10
     }
 })
-export default DetailDiaryScreen
+
+const mapStateToProps = state => {
+    return {
+        uid: state.auth.uid
+    }
+}
+export default connect(mapStateToProps)(DetailDiaryScreen)

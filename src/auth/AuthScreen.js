@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Fire from '../firebase/index'
 import {onLogin} from '../store/actions/index'
 
+
 class AuthScreen extends Component {
 
     state = {
@@ -45,11 +46,11 @@ class AuthScreen extends Component {
 
             try {
                 // Login di firebase
-                let user = await Fire.auth().signInWithEmailAndPassword(email, password)
-                
+                let res = await Fire.auth().signInWithEmailAndPassword(email, password)
+               
                 // Login di app
                 this.props.onLoginUser(
-                    user.uid, user.email
+                    res.user.uid, res.user.email
                 )
 
                 // Pindah ke halaman utama
