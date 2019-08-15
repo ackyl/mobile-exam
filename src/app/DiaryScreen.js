@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import {View, BackHandler, StyleSheet} from 'react-native'
+import {View, BackHandler, StyleSheet, FlatList} from 'react-native'
 import {NavigationEvents} from 'react-navigation'
 import {connect} from 'react-redux'
 import {Button, Text, Container} from 'native-base'
 
+import ListDiary from './components/ListDiary'
+
 import Fire from '../firebase'
+
 
 class DiaryScreen extends Component {
 
@@ -38,25 +41,38 @@ class DiaryScreen extends Component {
         let keysDiary = Object.keys(this.state.snapShot)
         let listDiary = []
 
+        // key : id dari diary
         keysDiary.forEach((key) => {
             listDiary.push({
                 title : this.state.snapShot[key].title,
                 diary : this.state.snapShot[key].diary,
-                date : this.state.snapShot[key].date
+                date : this.state.snapShot[key].date,
+                id: key
             })
         })
 
-        console.log(this.state.snapShot)
-        console.log(listDiary)
+        listDiary.map()
+        
+        // [{title, diary, date}{}{}]
+        return <FlatList
+                    keyExtractor = {(item) => item.id}
+                    style = {styles.flaslist}
+                    data={listDiary}
+                    renderItem ={(item)=>{
+                        return <ListDiary data={item} key={item.id}/>
+                    }}
+                />
     }
-
+s
     render() {
         return (
             <Container>
                 <NavigationEvents
                     // ComponentDidMount
                     onDidFocus = {() => {
+                        // non aktifkan tombol back pada device
                         BackHandler.addEventListener('hardwareBackPress', this.onBackButton)
+                        // get semua diary milik user
                         this.getData()
                     }}
 
@@ -69,11 +85,7 @@ class DiaryScreen extends Component {
                 <View style={styles.container}>
                     <Text>DiaryScreen</Text>
                     
-                    <View style={styles.button}>
-                        <Button onPress={this.renderList}>
-                            <Text>Nyoba bikin arrey</Text>
-                        </Button>
-                    </View>
+                    {this.renderList()}
                     <View style={styles.button}>
                         <Button onPress={this.onAddDiary}>
                             <Text>Add Diary</Text>
@@ -93,6 +105,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginVertical: 20
+    },
+    flaslist: {
+        alignSelf: 'stretch'
     }
 })
 
