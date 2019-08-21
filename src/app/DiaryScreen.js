@@ -8,11 +8,23 @@ import ListDiary from './components/ListDiary'
 
 import Fire from '../firebase'
 
+import {onLogout} from '../store/actions'
+
 
 class DiaryScreen extends Component {
 
     state = {
         snapShot: {}
+    }
+
+    onPressLogout = async () => {
+        // Logout dari firebase
+        await Fire.auth().signOut()
+        // Logout dari redux
+        this.props.onLogout()
+
+        // kembali ke halaman auth
+        this.props.navigation.navigate('Auth')
     }
 
     onBackButton = () => {
@@ -27,7 +39,7 @@ class DiaryScreen extends Component {
 
     getData = () => {
         // Get data
-        Fire.database().ref(`diary/${this.props.uid}`)
+        Fire.database().ref(`karyawan/${this.props.uid}`)
         .once('value', (snapShot) => {
             // Cek apakah data di temukan
             if(snapShot.exists()){
@@ -44,9 +56,9 @@ class DiaryScreen extends Component {
         // key : id dari diary
         keysDiary.forEach((key) => {
             listDiary.push({
-                title : this.state.snapShot[key].title,
-                diary : this.state.snapShot[key].diary,
-                date : this.state.snapShot[key].date,
+                nama : this.state.snapShot[key].nama,
+                usia : this.state.snapShot[key].usia,
+                jabatan : this.state.snapShot[key].jabatan,
                 id: key
             })
         })
@@ -82,14 +94,18 @@ class DiaryScreen extends Component {
                 />
 
                 <View style={styles.container}>
-                    <Text>DiaryScreen</Text>
+                    <Text>List Karyawan Screen</Text>
+
+                    <Button onPress ={this.onPressLogout}>
+                        <Text>Logout</Text>
+                    </Button>
                     
                     
                     {this.renderList()}
                     
                     <View style={styles.button}>
                         <Button onPress={this.onAddDiary}>
-                            <Text>Add Diary</Text>
+                            <Text>Add Karyawan</Text>
                         </Button>
                     </View>
                 </View>
@@ -118,4 +134,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(DiaryScreen)
+export default connect(mapStateToProps, {onLogout})(DiaryScreen)

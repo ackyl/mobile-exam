@@ -1,13 +1,13 @@
 import firebase from 'firebase'
 
 var firebaseConfig = {
-    apiKey: "AIzaSyBM0LNmRIVg0Qi914yIziQZMkua5y9uUFw",
-    authDomain: "jc9rochafi.firebaseapp.com",
-    databaseURL: "https://jc9rochafi.firebaseio.com",
-    projectId: "jc9rochafi",
+    apiKey: "AIzaSyD38LzlrsJprrYCpAb0UelROxSPhVtxVZM",
+    authDomain: "reactnative-exam.firebaseapp.com",
+    databaseURL: "https://reactnative-exam.firebaseio.com",
+    projectId: "reactnative-exam",
     storageBucket: "",
-    messagingSenderId: "845912716344",
-    appId: "1:845912716344:web:120821e9a21b1897"
+    messagingSenderId: "807220359547",
+    appId: "1:807220359547:web:2c6db9f2c3006a72"
 };
 
 export default Fire = firebase.initializeApp(firebaseConfig);

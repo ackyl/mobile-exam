@@ -8,7 +8,7 @@ import {
     CardItem,
     Text,
     Button,
-    Item, Input
+    Item, Input, Textarea
 } from 'native-base'
 
 import Fire from '../firebase'
@@ -18,30 +18,29 @@ import Fire from '../firebase'
 class DetailDiaryScreen extends Component {
 
     state = {
-        karyawan: this.props.navigation.getParam('data_diary'),
+        // objDiary = {title: 'Contoh judul', diary: 'Kemarin minggu saya dirumah', id: Lwe45Dsdkk}
+        objDiary: this.props.navigation.getParam('data_diary'),
         edit: false,
-        nama: this.props.navigation.getParam('data_diary').nama,
-        usia: this.props.navigation.getParam('data_diary').usia,
-        jabatan: this.props.navigation.getParam('data_diary').jabatan
+        title: this.props.navigation.getParam('data_diary').title,
+        diary: this.props.navigation.getParam('data_diary').diary
     }
 
     onDeleteButton = async () => {
+        // DUA
         // Menghapus data
-       await Fire.database().ref(`karyawan/${this.props.uid}/${this.state.karyawan.id}`).remove()
+       await Fire.database().ref(`diary/${this.props.uid}/${this.state.objDiary.id}`).remove()
         // kembali ke halaman sebelumnya. 
        this.props.navigation.goBack()
     }
 
     onSaveButton = () => {
         // EMPAT
-        Fire.database().ref(`karyawan/${this.props.uid}/${this.state.karyawan.id}`)
+        Fire.database().ref(`diary/${this.props.uid}/${this.state.objDiary.id}`)
         .update({
-            nama: this.state.nama,
-            usia: this.state.usia,
-            jabatan: this.state.jabatan
+            title: this.state.title,
+            diary: this.state.diary
         })
 
-        this.props.navigation.goBack()
     }
 
     onEditButton = () => {
@@ -54,41 +53,31 @@ class DetailDiaryScreen extends Component {
         this.setState({edit: false})
     }
 
+
+
     render() {
-        // Mengambil data yang di kirim dari navigate
-        if(this.state.edit){
-
-            var karyawan = this.state.karyawan
-
+       if(this.state.edit) {
+            // Tampilkan mode edit
+            var diary = this.state.objDiary
             return (
                 <Container>
                         <View style={styles.container}>
-                            <Text style={{fontSize: 20}}>Edit Karyawan</Text>
+                            <Text style={{fontSize: 20}}>Edit Diary</Text>
                             <View style={styles.wrapper}>
                                 <Item rounded>
                                     <Input
-                                        value = {this.state.nama}
+                                        value = {this.state.title}
                                         placeholder='Title'
-                                        onChangeText={(text) => this.setState({nama: text})}
+                                        onChangeText={(text) => this.setState({title: text})}
                                     />
                                 </Item>
-
-                                <Item rounded>
-                                    <Input
-                                        value = {this.state.usia}
-                                        placeholder='Title'
-                                        onChangeText={(text) => this.setState({usia: text})}
-                                    />
-                                </Item>
-
-                                <Item rounded>
-                                    <Input
-                                        value = {this.state.jabatan}
-                                        placeholder='Title'
-                                        onChangeText={(text) => this.setState({jabatan: text})}
-                                    />
-                                </Item>
-
+                                <Textarea
+                                    value = {this.state.diary}
+                                    placeholder = 'Your Story'
+                                    bordered
+                                    rowSpan = {15}
+                                    onChangeText={(text) => this.setState({diary: text})}
+                                />
                                 <View style={styles.button}>
                                     <Button block onPress={this.onSaveButton}>
                                         <Text>SAVE</Text>
@@ -101,24 +90,19 @@ class DetailDiaryScreen extends Component {
                         </View>
                 </Container>
             )
-
-        }else{
-            var karyawan = this.state.karyawan
+       } else {
+            // Tampilkan mode read
+            var diary = this.state.objDiary
             return (
                 <Container>
                     <Content>
-
-                        <Text style={{fontSize: 20}}>Detail Karyawan</Text>
-
                         <Card>
-                            <CardItem>
-                                <Text>Nama: {karyawan.nama}</Text>
+                            <CardItem header bordered style={styles.row}>
+                                <Text style={styles.headerText}>{diary.title}</Text>
+                                <Text>{diary.date}</Text>
                             </CardItem>
                             <CardItem>
-                                <Text>Usia: {karyawan.usia}</Text>
-                            </CardItem>
-                            <CardItem>
-                                <Text>Jabatan: {karyawan.jabatan}</Text>
+                                <Text>{diary.diary}</Text>
                             </CardItem>
                             <View style={styles.button}>
                                 <Button block onPress={this.onEditButton}><Text>Edit</Text></Button>
@@ -128,7 +112,7 @@ class DetailDiaryScreen extends Component {
                     </Content>
                 </Container>
             )
-        }
+       }
     }
 }
 
@@ -145,7 +129,15 @@ const styles = StyleSheet.create({
         height: 100,
         justifyContent: 'space-between',
         marginTop: 10
-    }
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    wrapper: {
+        width: '90%',
+        marginTop: 15
+    },
 })
 
 const mapStateToProps = state => {

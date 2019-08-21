@@ -14,8 +14,7 @@ class ListDiary extends Component {
         return(
             <TouchableOpacity onPress={this.touchable}>
                 <View style={styles.list}>
-                    <Text>{this.props.data.item.title}</Text>
-                    <Text>{this.props.data.item.date}</Text>
+                    <Text>{this.props.data.item.nama}</Text>
                 </View>
             </TouchableOpacity>
         )

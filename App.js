@@ -13,9 +13,6 @@ import DiaryScreen from './src/app/DiaryScreen'
 import AddDiaryScreen from './src/app/AddDiaryScreen'
 import DetailDiaryScreen from './src/app/DetailDiaryScreen'
 
-import ProfileScreen from './src/app/ProfileScreen'
-
-
 import STORE from './src/store/reducers/index'
 
 const DiaryStack = createStackNavigator(
@@ -29,33 +26,34 @@ const DiaryStack = createStackNavigator(
   }
 )
 
-const MainTab = createBottomTabNavigator(
-  {
-    Diary: {
-      screen: DiaryStack,
-      navigationOptions: {
-        tabBarIcon: <Icon name='bookmarks'/>
-      }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: {
-        tabBarIcon: <Icon name='contact'/>
-      }
-    }
-  },
-  {
-    tabBarOptions: {
-      activeTintColor: 'purple',
-      inactiveTintColor: 'grey'
-    }
-  }
-)
+// const MainTab = createBottomTabNavigator(
+//   {
+//     Diary: {
+//       screen: DiaryStack,
+//       navigationOptions: {
+//         tabBarIcon: <Icon name='bookmarks'/>
+//       }
+//     },
+//     Profile: {
+//       screen: ProfileScreen,
+//       navigationOptions: {
+//         tabBarIcon: <Icon name='contact'/>
+//       }
+//     }
+//   },
+//   {
+//     tabBarOptions: {
+//       activeTintColor: 'purple',
+//       inactiveTintColor: 'grey'
+//     }
+//   }
+// )
 
 const RootStack = createStackNavigator(
   {
     Auth: AuthScreen,
-    Main: MainTab
+    Main: DiaryStack
+    // Main: MainTab
   },
   {
     headerMode: 'none'

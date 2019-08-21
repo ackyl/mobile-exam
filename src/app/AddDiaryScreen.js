@@ -3,34 +3,26 @@ import {View, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import {Container, Text, Textarea, Button, Item, Input} from 'native-base'
 
-import DatePick from './components/DatePick'
-
 import Fire from '../firebase'
 
-class AddDiaryScreen extends Component {
+class addKaryawanScreen extends Component {
 
     state = {
-        title: '',
-        diary: '',
-        date: new Date()
+        nama: '',
+        usia: 0,
+        jabatan: ''
     }
 
-    // variable tanggal akan di isi tanggal yang dipilih oleh user
-    getDate = (tanggal) => {
-        this.setState({date: tanggal})
-    }
-
-    addDiary = async () => {
-        await Fire.database().ref(`diary/${this.props.uid}`)
+    addKaryawan = async () => {
+        await Fire.database().ref(`karyawan/${this.props.uid}`)
         .push({
-            title: this.state.title,
-            diary: this.state.diary,
-            date: this.state.date.toString().substr(4,12)
+            nama: this.state.nama,
+            usia: this.state.usia,
+            jabatan: this.state.jabatan
         })
 
         // kembali ke halaman sebelumnya
         this.props.navigation.goBack()
-
     }
 
     render() {
@@ -39,22 +31,31 @@ class AddDiaryScreen extends Component {
                 <View style={styles.container}>
                     <Text style={{fontSize: 20}}>Create Diary</Text>
                     <View style={styles.wrapper}>
-                        <DatePick funDate={this.getDate}/>
+
                         <Item rounded>
                             <Input
-                                placeholder='Title'
-                                onChangeText={(text) => this.setState({title: text})}
+                                placeholder='Nama'
+                                onChangeText={(text) => this.setState({nama: text})}
                             />
                         </Item>
-                        <Textarea
-                            placeholder = 'Your Story'
-                            bordered
-                            rowSpan = {15}
-                            onChangeText={(text) => this.setState({diary: text})}
-                        />
+
+                        <Item rounded>
+                            <Input
+                                placeholder='Usia'
+                                onChangeText={(text) => this.setState({usia: text})}
+                            />
+                        </Item>
+
+                        <Item rounded>
+                            <Input
+                                placeholder='Jabatan'
+                                onChangeText={(text) => this.setState({jabatan: text})}
+                            />
+                        </Item>
+
                         <View style={styles.button}>
-                            <Button block onPress={this.addDiary}>
-                                <Text>Create Diary</Text>
+                            <Button block onPress={this.addKaryawan}>
+                                <Text>Add Karyawan</Text>
                             </Button>
                         </View>
                     </View>
@@ -84,4 +85,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(AddDiaryScreen)
+export default connect(mapStateToProps)(addKaryawanScreen)
